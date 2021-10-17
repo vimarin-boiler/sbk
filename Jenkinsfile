@@ -1,27 +1,28 @@
 pipeline {
     agent any
+
     tools {
         maven 'Maven'
         nodejs 'NodeJs'
-        }
+    }
   
     stages {
-            stage('initial'){
-                steps{
-                    figlet 'Execute Inital'
-
-                 sh '''
-                  echo "PATH = ${PATH}"
-                  echo "M2_HOME = ${M2_HOME}"
-                  '''
-                }
+        stage('initial'){
+            steps{
+                figlet 'Inital'
+                
+             sh '''
+              echo "PATH = ${PATH}"
+              echo "M2_HOME = ${M2_HOME}"
+              '''
+            }
         }
 
         stage('Compile'){
-                steps{
-                    figlet 'Compile'
-                    sh 'mvn clean compile -e'
-                }
+            steps{
+                figlet 'Compile'
+                sh 'mvn clean compile -e'
+            }
         }
         
         stage('Test'){
@@ -44,11 +45,29 @@ pipeline {
            steps{
                figlet 'SonarQube'
                script{
-                   def scannerHome = tool 'SonarQube Scanner'                   
+                   def scannerHome = tool 'SonarQube Scanner'
+                   
                    withSonarQubeEnv('Sonar Server'){
                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=tarea-sonar -Dsonar.sources=. -Dsonar.projectBaseDir=${env.WORKSPACE} -Dsonar.java.binaries=target/classes -Dsonar.exclusions='**/*/test/**/*, **/*/acceptance-test/**/*, **/*.html'"
                    }
                }
            }
-  
+          }       
+
+
+            stage('Slack'){
+                      steps{
+                          figlet 'Slack Message'
+                          
+                            slackSend channel: 'notificacion-jenkins',
+                            color: 'danger',
+                            message: "Se ha terminado una ejecucion del pipeline."
+                      }
+                  }
+
+    }
+    
+      
+    
+           
 }
