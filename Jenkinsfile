@@ -7,7 +7,7 @@ pipeline {
     }
   
     stages {
-        stage('initial'){
+        stage('initial-stage'){
             steps{
                 figlet 'Inital'
                 
@@ -18,21 +18,21 @@ pipeline {
             }
         }
 
-        stage('Compile'){
+        stage('Compile-Stage'){
             steps{
                 figlet 'Compile'
                 sh 'mvn clean compile -e'
             }
         }
         
-        stage('Test'){
+        stage('Test-Stage'){
             steps{
                 figlet 'Test'
                 sh 'mvn clean test -e'
             }
         }
         
-        stage('SCA'){
+        stage('Dependency-Stage'){
             steps{
                 figlet 'Dependency-Check'
                 sh 'mvn org.owasp:dependency-check-maven:check'
@@ -41,7 +41,7 @@ pipeline {
             }
         }
         
-        stage('Sonarqube'){
+        stage('Sonarqube-Stage'){
            steps{
                figlet 'SonarQube'
                script{
@@ -55,7 +55,7 @@ pipeline {
           }       
 
 
-            stage('Slack'){
+            stage('Slack-Stage'){
                       steps{
                           figlet 'Slack Message'
                           
