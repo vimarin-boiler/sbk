@@ -59,7 +59,7 @@ pipeline {
             steps{
                 figlet 'Owasp Zap DAST'
                 script {
-                    sh /usr/local/bin/zap.sh -quickurl http://zero.webappsecurity.com -quickprogress -quickout /home/zap/report.html -cmd
+                    sh "/usr/local/bin/zap.sh -quickurl http://zero.webappsecurity.com -quickprogress -quickout /home/zap/report.html -cmd"
                         }
             }
         }
