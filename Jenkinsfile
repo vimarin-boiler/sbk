@@ -54,17 +54,7 @@ pipeline {
            }
           }       
 
-        
-        stage('OWASPZap'){
-            steps{
-                figlet 'Owasp Zap DAST'
-                script {
-                    sh "/usr/local/bin/zap.sh -quickurl http://zero.webappsecurity.com -quickprogress -quickout /home/zap/report.html -cmd"
-                        }
-            }
-        }
-
-            stage('Slack-Stage'){
+        stage('Slack-Stage'){
                       steps{
                           figlet 'Slack Message'
                           
